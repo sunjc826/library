@@ -2,6 +2,7 @@
 let mainBody = document.querySelector("main");
 let bookDisplay = document.querySelector("#book-display");
 let addBtn = document.querySelector("#add-button");
+let addRandomBtn = document.querySelector("#add-random-button");
 let formDisplay = document.querySelector("#form-display");
 let bookForm = document.querySelector("#book-form");
 let submitBtn = document.querySelector("#submit-button");
@@ -10,16 +11,30 @@ let cancelBtn = document.querySelector("#cancel-button");
 // constructor and methods
 
 let myLibrary = [];
+const FIELDS = 4; // no. of instance variables for each Book object
 
 function Book(title, author, pages, read) {
     this.title = title;
     this.author = author;
-    this.pages = pages;
-    this.read = read; // boolean variable
+    if (typeof pages === "string") {
+        this.pages = parseInt(pages);
+    } else {
+        this.pages = pages;
+    }
+
+    if (typeof read === "string") {
+        this.read = (read === "true");
+    } else {
+        this.read = read;
+    }
 }
 
 Book.prototype.info = function(){
     return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read ? "read" : "not read yet"}`;
+}
+
+Book.prototype.toString = function() {
+    return `${this.title},${this.author},${this.pages},${this.read}`;
 }
 
 Book.prototype.changeReadStatus = function() {
@@ -34,6 +49,7 @@ function addBookToLibrary(...book) {
 
 function displayBooks() {
     bookDisplay.innerHTML = "";
+    updateLocalStorage();
     for (let i = 0; i < myLibrary.length; i++) {
         addBookElement(myLibrary[i], i);
     }
@@ -44,11 +60,23 @@ function displayBooks() {
 
 // Page Set-up
 addBtn.addEventListener("click", addBtnListener);
+addRandomBtn.addEventListener("click", addRandomBtnListener);
 submitBtn.addEventListener("click", submitBtnListener);
 cancelBtn.addEventListener("click", cancelBtnListener);
 
 function addBtnListener(e) {
     unhide();
+}
+
+function addRandomBtnListener(e) {
+    let titleLen = randomInt(1, 15);
+    const title = randomString(titleLen);
+    const author = "Anonymous";
+    const pageCount = randomInt(100, 1000);
+    let read =  randomInt(0, 100) < 50 ? true : false; 
+    let randomBook = new Book(title, author, pageCount, read);
+    addBookToLibrary(randomBook);
+    displayBooks();
 }
 
 function submitBtnListener(e) {
@@ -121,6 +149,21 @@ function addBookElement(book, index) {
     bookDisplay.appendChild(bookDiv);
 }
 
+function randomInt(low, high) {
+    const range = high - low;
+    return low + Math.floor(Math.random() * range);
+}
+
+
+function randomString(charCount) {
+    let lst = [];
+    for (let i = 0; i < charCount; i++) {
+        let charOffset = randomInt(0, 25);
+        lst.push(String.fromCharCode(charOffset + 97));
+    }
+    return lst.join("");
+}
+
 
 function isFormFilled(form) {
     let inputList = form.querySelectorAll("input");
@@ -152,10 +195,35 @@ function hide() {
     bookForm.reset();
 }
 
-// Using application
+function updateLocalStorage() {
+    localStorage.setItem("myLibrary", myLibrary.toString());
+}
 
+function populateLibrary(str) {
+    if (str === "") {
+        return;
+    }
+    const arr = str.split(",");
+    for (let i = 0; i < arr.length;) {
+        let lst = [];
+        for (let j = 0; j < FIELDS; i++, j++) {
+            lst.push(arr[i]);
+        }
+        addBookToLibrary(new Book(...lst));
+    }
+}
+
+// Using application
 let theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", 295, false);
 let theStand = new Book("The Stand", "S. King", 1000, true);
 let harryPotter = new Book("Harry Potter", "J.K. Rowling", 500, false);
-addBookToLibrary(theHobbit, theStand, harryPotter);
+function addDefaultBooks() {
+    addBookToLibrary(theHobbit, theStand, harryPotter);
+}
+
+if (localStorage.getItem("myLibrary") === null) {
+    addDefaultBooks();
+} else {
+    populateLibrary(localStorage.getItem("myLibrary"));
+}
 displayBooks();
