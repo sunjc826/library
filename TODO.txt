@@ -1,0 +1,6 @@
+Possible optimisations for book display:
+1. Linear optimisation strategy
+Only re-render books after the altered index. E.g. if a new book is added, then only rerender the new book.
+If the book at index i is removed, then only re-render books from index i onwards.
+
+Also, when read status is changed, only re-render that particular grid element.

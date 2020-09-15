@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Library</title>
+    <link href="css/reset.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+</head>
+<body>
+    <main>
+        <button id="add-button">Add book</button>
+        <div id="form-display">
+            <form id="book-form">
+                <label>Title: <input id="title" type="text"></label>
+                <label>Author: <input id="author" type="text"></label>
+                <label>Number of pages: <input id="pages" type="number"></label>
+                <fieldset>
+                    <legend>Have you read this book yet?</legend>
+                    <label><input class="read" name="read" value="yes" type="radio">Yes</label>
+                    <label><input class="read" name="read" value="no" type="radio">No</label>
+                </fieldset>
+                
+            </form>
+            <button id="submit-button" class="form-button">Submit</button>
+            <button id="cancel-button" class="form-button">Cancel</button>
+        </div>
+        <div id="book-display">
+
+        </div>
+        <script src="js/library.js"></script>
+    </main>
+</body>
+</html>

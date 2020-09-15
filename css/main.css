@@ -1,0 +1,47 @@
+body {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: burlywood;
+}
+
+main {
+    position: relative;
+    width: 80%;
+    height: 70%;
+    margin: 10% auto;
+    display: flexbox;
+    flex-direction: column;
+    background-color: antiquewhite;
+}
+
+
+#form-display {
+    display: none;
+    position: absolute;
+    z-index: 2;
+    width: auto;
+    height: auto;
+    background-color: gray;
+
+}
+
+
+label {
+    display: block;
+}
+
+#book-display {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 90%;
+    height: 70%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-gap: 10px;
+    background-color: whitesmoke;
+}
