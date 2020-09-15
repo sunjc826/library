@@ -71,7 +71,7 @@ function addBtnListener(e) {
 function addRandomBtnListener(e) {
     let titleLen = randomInt(1, 15);
     const title = randomString(titleLen);
-    const author = "Anonymous";
+    const author = `TheLegend${randomInt(1, 100)}`;
     const pageCount = randomInt(100, 1000);
     let read =  randomInt(0, 100) < 50 ? true : false; 
     let randomBook = new Book(title, author, pageCount, read);
@@ -120,7 +120,11 @@ function addBookElement(book, index) {
     const indexAttribute = document.createAttribute("data-library-index");
     indexAttribute.value = index;
     bookDiv.setAttributeNode(indexAttribute);
-    bookDiv.setAttribute("style", "position: relative;");
+    bookDiv.setAttribute("style", 
+        "position: relative;\
+            margin: 5px;\
+            background-color: beige;\
+            border: 1px solid black;");
     bookDiv.textContent = book.info();
 
     const removeBtn = document.createElement("button");
@@ -158,7 +162,7 @@ function randomInt(low, high) {
 function randomString(charCount) {
     let lst = [];
     for (let i = 0; i < charCount; i++) {
-        let charOffset = randomInt(0, 25);
+        let charOffset = randomInt(0, 26);
         lst.push(String.fromCharCode(charOffset + 97));
     }
     return lst.join("");
